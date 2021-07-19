@@ -8,7 +8,7 @@ difference between media reports and netizen comments
   - 赵鑫 ，李晓明．主题模型在文本挖掘 中的应用JR3．PKU-CSNCIS-TR2011Xx．June2011
 - 情感分析模块集成使用 中文情感分词工具 [SnowNLP](https://github.com/isnowfy/snownlp)
 
-*1、源数据请参考SinaNewsCrawler，本文暂不开源，不支持引用*
+*1、源数据请参考 [SinaNewsCrawler](https://github.com/XuanlongQ/SinaNewsCrawler/tree/master)，本文暂不开源，不支持引用*
 
 *2、macOS 使用提前删除“.DS_Store”文件*
 
