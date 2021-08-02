@@ -18,19 +18,21 @@ def getComment(data,urls):
         u = line['url']
         # 找出对应文章
         if u in urls:
-            for comment in d:
-                # print(comment,type(comment))
-                if not bool(comment):  
-                    print("Dictionary is empty")
-                    countComments = countComments + 0
-                    scoreComments = scoreComments + 0
-                else:
+            if len(d):
+                for comment in d:
                     countComments = countComments + 1
                     s = comment['sentiment']
                     try:
-                        scoreComments = scoreComments + s
+                        if str(s) == 'null':
+                            continue
+                        else:
+                            scoreComments = scoreComments + s
                     except:
-                        print('comment sentiment is null')
+                        print('comment sentiment is error')
+            else:
+                continue
+                # countComments = countComments + 0
+                # scoreComments = scoreComments + 0
     return countComments,scoreComments
     
 
@@ -53,17 +55,22 @@ def getContent(data):
         classId = line['property']['class']
         s = line['sentiment']
         #print(s)
-        if '疫情' in classId:
+        if '政治' in classId:
             #表明为该分类的相关文章
             countArticles = countArticles + 1
             try:
-                socreArticles = socreArticles + s
+                if str(s) == 'null':
+                    print('sentiment is null')
+                    continue
+                else:
+                    socreArticles = socreArticles + s
             except:
-                print('articles sentiment is null')
+                print('articles sentiment error')
             urls.append(url)
         else:
-            countArticles = countArticles + 0
-            socreArticles = socreArticles + 0
+            continue
+            # countArticles = countArticles + 0
+            # socreArticles = socreArticles + 0
             
             # print(countArticles)
     return countArticles,socreArticles,urls
@@ -72,13 +79,13 @@ def getContent(data):
 
 if __name__ =="__main__":
     # 写入文本"疫情文章的总情感趋势,疫情评论的总情感趋势"
-    writeFile = 'Final_comments_epidemic_v3.txt'   
+    writeFile = 'Final_comments_politic_v4.txt'   
     
     # 文章
-    SinaNewsMetaPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/Finaldata3'
+    SinaNewsMetaPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newdata'
     print(SinaNewsMetaPath)
     # 评论
-    SinaNewsCommentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/未命名文件夹/Finalcomment2'
+    SinaNewsCommentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newcomment'
     
     files= os.listdir(SinaNewsMetaPath)
     files.sort()

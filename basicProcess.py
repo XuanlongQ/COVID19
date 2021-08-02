@@ -23,7 +23,8 @@ def txtToCsv(path):
     '''
     df = pd.read_csv(path,header=None,names = ['日期','文章数','文章分数','评论数','评论分数','文章情感均值','评论情感均值'])
     df.to_csv('Final_comments_epidemic_v3.csv',encoding = 'utf_8_sig')
-    
+
+
 
 def getComment(data):
     '''
@@ -67,7 +68,7 @@ def stopwordslist():
     :stopword :百度停用词表，哈工大停用词表，中文停用词表，四川大学机器智能实验室停用词库 //统一整合至cn_stopwords
     
     '''
-    stopwords = [line.strip() for line in open('/Users/xuanlongqin/Documents/data/covid-19/Data/stopWords/cn_stopwords.txt',encoding='UTF-8').readlines()]
+    stopwords = [line.strip() for line in open('/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/COVID19Analyis/writeFolder/stopWords/cn_stopwords.txt',encoding='UTF-8').readlines()]
     return stopwords
 
 def sentimentFunc(c):
@@ -125,11 +126,13 @@ def reWrite(path,FindName):
         
         
 if __name__ =="__main__":
-    #commentPath = globalPath().dataSet('comment')
-    commentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/sinaNews/comment'
-    #FinalcommentPath = globalPath().FinaldataSet('comment')
-    FinalcommentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/sinaNews/finalcomment'
+    commentPath = globalPath().dataSet('comment')
+    # commentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/sinaNews/comment'
+    FinalcommentPath = globalPath().FinaldataSet('comment')
+    # FinalcommentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/sinaNews/finalcomment'
     
+    
+
     print(commentPath)
     files= os.listdir(commentPath)
     files.sort()
@@ -138,5 +141,5 @@ if __name__ =="__main__":
         FindName = FinalcommentPath +'/' + file
         print(fileName)
         reWrite(fileName,FindName)
-            
+
         

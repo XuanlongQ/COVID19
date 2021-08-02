@@ -5,17 +5,35 @@
 # 用意：基本函数模块getCutWords、JudgeArticle、getclass、sentimentFunc ，组合模块：重写评论
 # MacOS 无法读取文件时，注意删除.DS_Store文件
 
+
 import jieba
 import json
 import os
+import jieba.posseg as pseg
 
 from gloPath import globalPath,writePath
 from basicProcess import getArticle,stopwordslist
-import jieba.posseg as pseg
+
 
 from snownlp import SnowNLP
 
-
+def cal(conts):
+    num = 0
+    senti = 0
+    for content in conts:
+        proWords = getCutWords(content)
+        score = sentimentFunc(proWords)
+        print(num,proWords,score)
+        try:
+            senti  = senti + score
+            num = num + 1
+        except:
+            print('senti value error')
+    try:    
+        finalsenti = senti/num
+        return finalsenti
+    except:
+        print('ZeroDivisionError')
 
 # 返回切完词的文件的内容
 def getCutWords(d):  
@@ -33,16 +51,19 @@ def getCutWords(d):
     
     for w in seg_list:
         if w not in stopwords:
-            if w.flag == 'n':
-                cutWords = cutWords + w.word +','
-                c.append(w.word)
-    return c
+            try:
+                if w.flag == 'n' or w.flag == 'v' or w.flag == 'y':
+                    cutWords = cutWords + w.word
+                    # c.append(w.word)
+                else:
+                    pass
+                    # print("cutwords error")
+            except:
+                print('words flag error')
+    return cutWords
     # return cutWords
 
-            
-
 # 获取12-5月的全部文章内容，并写入路径allArticles.txt
-
 def getAllArticles(fileName):
     '''
     所有内容整合至一个文件
@@ -58,8 +79,6 @@ def getAllArticles(fileName):
         # open(writeAllArticlesPath,'a+',encoding= 'utf-8') as fw:
         #     fw.write(c + '\n')
 
-
-#增加
 def addinfo(path,num,FindName):
     '''
     增加分类
@@ -86,7 +105,6 @@ def addinfo(path,num,FindName):
             num = num + 1
         return num
 
-
 def dict2json(the_dict):
     '''
     将字典文件写如到json文件中
@@ -102,7 +120,6 @@ def dict2json(the_dict):
         return 1
     except:
         return 0   
-
 
 def sentimentFunc(c):
     '''
@@ -177,16 +194,18 @@ def getclass(i):
     return v
 
 if __name__ =="__main__":
-    num = 0 
-    commentPath = globalPath().dataSet('comment')
-    metaDataPath = globalPath().dataSet('data') 
+    # num = 0 
+    # commentPath = globalPath().dataSet('comment')
+    # metaDataPath = globalPath().dataSet('data') 
     
-    AllArticlesPath = writePath().allArticles('original')
-    AllArticlesPathFenci = writePath().allArticles('fenci')
-    FinalcommentPath = globalPath().FinaldataSet('comment')
-    FinalmetaDataPath = globalPath().FinaldataSet('data') 
+    # AllArticlesPath = writePath().allArticles('original')
+    # AllArticlesPathFenci = writePath().allArticles('fenci')
+    # FinalcommentPath = globalPath().FinaldataSet('comment')
+    # FinalmetaDataPath = globalPath().FinaldataSet('data') 
     
-
+    metaDataPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newdata'
+    FinalmetaDataPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newFinaldata'
+    
     # 全部新闻文章分词
     files= os.listdir(metaDataPath)
     files.sort()
@@ -200,14 +219,10 @@ if __name__ =="__main__":
         with open(fileName,'r',encoding='utf-8') as fr:
             data = json.load(fr)
             for i in data:
-                c = i['meta']['content']
-                # print(c)
-                addition = {}
-                addition['number'] = num
-                addition['class'] = getclass(i)
-                
-                i['property'] = addition
-                i['sentiment'] = sentimentFunc(c)
+                content = i['meta']['content']
+                conts = content.split('。')[:-1]
+                s = cal(conts)
+                i['sentiment'] = s
                 
                 try:
                     jsonStr = json.dumps(i,indent=4,ensure_ascii=False)
@@ -215,7 +230,20 @@ if __name__ =="__main__":
                         fw.write(jsonStr + ',' + '\n')
                 except:
                     print('content error')
-                num = num + 1
+                
+                # print(c)
+'''
+                addition = {}
+                addition['number'] = num
+                addition['class'] = getclass(i)
+                
+                i['property'] = addition
+                i['sentiment'] = sentimentFunc(c)
+'''
+                
+                
+                # num = num + 1
+
         
     # @ all articles cut words
     # with open(AllArticlesPath, 'r' , encoding= 'utf-8') as fr:

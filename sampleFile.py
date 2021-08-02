@@ -18,8 +18,8 @@ def sampleContent(n):
 
 if __name__ == '__main__':
 
-    rpath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/sinaNews/finalcomment'
-    wpath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/processFile/paper/dataSet/sinaNews/comment'
+    rpath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/wuhanCommentClass'
+    wpath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/wuhanFinalCommen'
     files= os.listdir(rpath)
     files.sort()
     for file in files:
