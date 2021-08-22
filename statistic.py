@@ -55,7 +55,7 @@ def getContent(data):
         classId = line['property']['class']
         s = line['sentiment']
         #print(s)
-        if '政治' in classId:
+        if '疫情' in classId:
             #表明为该分类的相关文章
             countArticles = countArticles + 1
             try:
@@ -79,10 +79,10 @@ def getContent(data):
 
 if __name__ =="__main__":
     # 写入文本"疫情文章的总情感趋势,疫情评论的总情感趋势"
-    writeFile = 'Final_comments_politic_v4.txt'   
+    writeFile = 'Final_comments_epidemic_v5.txt'   
     
     # 文章
-    SinaNewsMetaPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newdata'
+    SinaNewsMetaPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/reSingleData'
     print(SinaNewsMetaPath)
     # 评论
     SinaNewsCommentPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newcomment'

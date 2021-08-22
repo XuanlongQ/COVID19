@@ -33,10 +33,10 @@ def Txt2Csv(Txt_path, Csv_path):
 
     # df.to_csv(Csv_path, header=False)           # 不添加表头
     try:
-        df.columns = ['时间序号','日期','URL','评论情感值','回复内容','小标题','小标题','小标题']  # 添加表头
+        df.columns = ['日期','URL','分类','情感值','评论内容']  # 添加表头
     except:
         print(os.error)
-    df.to_csv("Allcomment.csv", index=False ,header=False ,encoding = 'utf_8_sig')
+    df.to_csv(Csv_path, index=False ,header=False ,encoding = 'utf_8_sig')
     print("数据写入成功")
     
 def findURL(url,FindName):
@@ -50,9 +50,12 @@ def findURL(url,FindName):
 
 
 if __name__ =="__main__":
+    Txt_path = r'/Users/xuanlongqin/Documents/data/covid-19/economicComment.txt'
+    Csv_path = r'economicComment.csv'
+    Txt2Csv(Txt_path, Csv_path)
     
-    path = '/Users/xuanlongqin/Documents/data/covid-19/wuhanDataPolitic.txt'
-    txtToCsv(path)
+    # path = '/Users/xuanlongqin/Documents/data/covid-19/wuhanDataPolitic.txt'
+    # txtToCsv(path)
     
 '''
     # commentPath = globalPath().dataSet('comment')

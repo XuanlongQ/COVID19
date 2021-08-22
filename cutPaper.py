@@ -23,7 +23,7 @@ def cal(conts):
     for content in conts:
         proWords = getCutWords(content)
         score = sentimentFunc(proWords)
-        print(num,proWords,score)
+        # print(num,proWords,score)
         try:
             senti  = senti + score
             num = num + 1
@@ -203,8 +203,8 @@ if __name__ =="__main__":
     # FinalcommentPath = globalPath().FinaldataSet('comment')
     # FinalmetaDataPath = globalPath().FinaldataSet('data') 
     
-    metaDataPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newdata'
-    FinalmetaDataPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/newFinaldata'
+    metaDataPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/SingleData'
+    FinalmetaDataPath = r'/Users/xuanlongqin/Documents/data/covid-19/Data/news/dataSet/sinaNews/finalSingleData'
     
     # 全部新闻文章分词
     files= os.listdir(metaDataPath)
@@ -213,8 +213,8 @@ if __name__ =="__main__":
         print(file)
         fileName = metaDataPath + '/' + file
         FindName = FinalmetaDataPath +'/' + file
-        print(fileName)
-        print(FindName)
+        # print(fileName)
+        # print(FindName)
 
         with open(fileName,'r',encoding='utf-8') as fr:
             data = json.load(fr)
@@ -223,7 +223,8 @@ if __name__ =="__main__":
                 conts = content.split('。')[:-1]
                 s = cal(conts)
                 i['sentiment'] = s
-                
+                # print(i)
+
                 try:
                     jsonStr = json.dumps(i,indent=4,ensure_ascii=False)
                     with open(FindName,'a+',encoding= 'utf-8') as fw:
@@ -231,7 +232,6 @@ if __name__ =="__main__":
                 except:
                     print('content error')
                 
-                # print(c)
 '''
                 addition = {}
                 addition['number'] = num
